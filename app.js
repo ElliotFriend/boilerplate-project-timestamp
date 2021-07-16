@@ -26,14 +26,14 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api", (req, res) => {
   let nowDate = new Date();
-  res.json({unix: nowDate.getTime(), utc: nowDate.toUTCString()});
+  res.json({unix: nowDate.valueOf(), utc: nowDate.toUTCString()});
 })
 
 app.get("/api/:timestamp", (req, res) => {
-  let reqDate = req.params.timestamp.match(/\D/) ? req.params.timestamp : parseInt(req.params.timestamp);
+  let reqDate = req.params.timestamp.match(/\D/) ? req.params.timestamp.toString() : parseInt(req.params.timestamp, 10);
   let dateObj = new Date(reqDate);
   if (dateObj == "Invalid Date") return res.json({error: "Invalid Date"});
-  res.json({unix: dateObj.getTime(), utc: dateObj.toUTCString()});
+  res.json({unix: dateObj.valueOf(), utc: dateObj.toUTCString()});
 });
 
 
