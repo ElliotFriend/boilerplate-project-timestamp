@@ -33,7 +33,7 @@ app.get("/api/:timestamp", (req, res) => {
   let timeString = req.params.timestamp;
   if (/\d{5,}/.test(timeString)) {
     let timeInt = parseInt(timeString);
-    res.json({ unix: timeString, utc: new Date(timeInt).toUTCString() });
+    res.json({ unix: timeInt, utc: new Date(timeInt).toUTCString() });
   } else {
     let dateObj = new Date(timeString);
     return dateObj.toString() === "Invalid Date"
@@ -41,8 +41,6 @@ app.get("/api/:timestamp", (req, res) => {
       : res.json({ unix: dateObj.valueOf(), utc: dateObj.toUTCString() });
   }
 });
-
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
