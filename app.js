@@ -27,13 +27,19 @@ app.get("/api/hello", function (req, res) {
 app.get("/api", (req, res) => {
   let nowDate = new Date();
   res.json({unix: nowDate.valueOf(), utc: nowDate.toUTCString()});
-})
+});
 
 app.get("/api/:timestamp", (req, res) => {
-  let reqDate = req.params.timestamp.match(/\D/) ? req.params.timestamp.toString() : parseInt(req.params.timestamp, 10);
-  let dateObj = new Date(reqDate);
-  if (dateObj == "Invalid Date") return res.json({error: "Invalid Date"});
-  res.json({unix: dateObj.valueOf(), utc: dateObj.toUTCString()});
+  let timeString = req.params.timestamp;
+  if (/\d{5,}/.test(timeString)) {
+    let timeInt = parseInt(timeString);
+    res.json({ unix: timeString, utc: new Date(timeInt).toUTCString() });
+  } else {
+    let dateObj = new Date(timeString);
+    return dateObj.toString === "Invalid Date"
+      ? res.json({ error: "Invalid Date" })
+      : res.json({ unix: dateObj.valueOf(), utc: dateObj.toUTCString() });
+  }
 });
 
 
