@@ -36,7 +36,7 @@ app.get("/api/:timestamp", (req, res) => {
     res.json({ unix: timeString, utc: new Date(timeInt).toUTCString() });
   } else {
     let dateObj = new Date(timeString);
-    return dateObj.toString === "Invalid Date"
+    return dateObj.toString() === "Invalid Date"
       ? res.json({ error: "Invalid Date" })
       : res.json({ unix: dateObj.valueOf(), utc: dateObj.toUTCString() });
   }
